@@ -22,30 +22,34 @@ class MLP(nn.Module):
 
 transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Lambda(lambda x: x.view(-1))  
+    transforms.Lambda(lambda x: x.view(-1))
 ])
 
-train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+train_dataset = datasets.MNIST(root='./data', train=True,
+                               download=True,
+                               transform=transform)
+train_loader = DataLoader(train_dataset,
+                          batch_size=64,
+                          shuffle=True)
 
 # Функция потерь и потимизатор даб
-input_size = 28 * 28  
-hidden_size = 128     
-output_size = 10      
+input_size = 28 * 28
+hidden_size = 128
+output_size = 10
 
 model = MLP(input_size, hidden_size, output_size)
-criterion = nn.NLLLoss()  
-optimizer = optim.Adam(model.parameters(), lr=0.001)  
+criterion = nn.NLLLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Обучение
 num_epochs = 5
 
 for epoch in range(num_epochs):
     for images, labels in train_loader:
-        optimizer.zero_grad()  
-        outputs = model(images)  
-        loss = criterion(outputs, labels)  
-        loss.backward()  
-        optimizer.step()  
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
 
     print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')

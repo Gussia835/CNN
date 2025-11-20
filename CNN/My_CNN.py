@@ -23,7 +23,7 @@ coord_y = func(coord_x) # значения функции по оси ордин
 
 X = torch.stack([torch.ones_like(coord_x), coord_x, coord_x**2, coord_x**3], dim=1)
 
-sz = coord_x.size(0)	# количество значений функций (точек)
+sz = coord_x.size(0) # количество значений функций (точек)
 eta = torch.tensor([0.1, 0.01, 0.001, 0.0001]) # шаг обучения для каждого параметра w0, w1, w2, w3
 w = torch.zeros(4, dtype=torch.float32) # начальные значения параметров модели
 N = 200 # число итераций градиентного алгоритма
@@ -32,6 +32,7 @@ sz = len(X)
 
 
 for i in range(N):
+    
     a = model(X, w)  
     err = a - coord_y
     grad = 2 / sz * (err @ X)
